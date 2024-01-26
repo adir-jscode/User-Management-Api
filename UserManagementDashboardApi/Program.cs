@@ -1,19 +1,39 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using UserManagementDashboardApi.Core.DbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+
+
+//JSON converter
+
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 //EF injection
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//Dependency Injection
 
+//Add Identity
+
+//Config Identity
+
+//Add JWTSchema and JWTBearer
 
 
 
