@@ -20,9 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Core\Dtos\Message\" />
     <Folder Include="Core\Interfaces\" />
-    <Folder Include="Core\Constants\" />
     <Folder Include="Core\Services\" />
   </ItemGroup>
 
