@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using UserManagementDashboardApi.Core.DbContext;
 using UserManagementDashboardApi.Core.Entities;
+using UserManagementDashboardApi.Core.Interfaces;
+using UserManagementDashboardApi.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +35,7 @@ builder.Services
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //Dependency Injection
-
+builder.Services.AddScoped<ILogService, LogService>();
 
 
 //Add Identity
