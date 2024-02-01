@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using UserManagementDashboardApi.Core.DbContext;
 using UserManagementDashboardApi.Core.Dtos.Log;
 using UserManagementDashboardApi.Core.Entities;
@@ -23,14 +24,26 @@ namespace UserManagementDashboardApi.Core.Services
             await _context.AddAsync(newLog);
             await _context.SaveChangesAsync();
         }
-        public  Task<IEnumerable<GetLogDto>> GetLogsAsync()
+        public async Task<IEnumerable<GetLogDto>> GetLogsAsync()
         {
-           throw new NotImplementedException();
+           var logs = await _context.Logs.Select(x => new GetLogDto
+           {
+               UserName = x.UserName,
+               Description = x.Description,
+               
+           }).OrderByDescending(q => q.CreatedAt).ToListAsync();
+            return logs;
         }
 
-        public Task<IEnumerable<GetLogDto>> GetMyLogsAsync(ClaimsPrincipal User)
+        public async Task<IEnumerable<GetLogDto>> GetMyLogsAsync(ClaimsPrincipal User)
         {
-            throw new NotImplementedException();
+            var myLogs = await _context.Logs.Where(q => q.UserName == User.Identity.Name).Select(q => new GetLogDto
+            {
+                UserName = q.UserName,
+                Description = q.Description,
+                CreatedAt = q.CreatedAt,
+            }).OrderByDescending(x=>x.CreatedAt).ToListAsync();
+            return myLogs;
         }
 
         
